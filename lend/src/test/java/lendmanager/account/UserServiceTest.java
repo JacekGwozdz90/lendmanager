@@ -6,6 +6,10 @@ import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 
+import lendmanager.account.Account;
+import lendmanager.account.AccountRepository;
+import lendmanager.account.UserService;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -51,7 +55,7 @@ public class UserServiceTest {
 	@Test
 	public void shouldReturnUserDetails() {
 		// arrange
-		Account demoUser = new Account("user@example.com", "demo", "ROLE_USER");
+		Account demoUser = new Account("user@example.com", "demo", Role.ROLE_USER);
 		when(accountRepositoryMock.findByEmail("user@example.com")).thenReturn(demoUser);
 
 		// act
@@ -59,8 +63,8 @@ public class UserServiceTest {
 
 		// assert
 		assertThat(demoUser.getEmail()).isEqualTo(userDetails.getUsername());
-		assertThat(demoUser.getPassword()).isEqualTo(userDetails.getPassword());
-        assertThat(hasAuthority(userDetails, demoUser.getRole()));
+		assertThat(demoUser.getPasswordHash()).isEqualTo(userDetails.getPassword());
+        assertThat(hasAuthority(userDetails, demoUser.getRole().toString()));
 	}
 
 	private boolean hasAuthority(UserDetails userDetails, String role) {

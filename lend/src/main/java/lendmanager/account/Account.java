@@ -1,44 +1,31 @@
 package lendmanager.account;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@SuppressWarnings("serial")
-@Entity
-@Table(name = "account")
-@NamedQuery(name = Account.FIND_BY_EMAIL, query = "select a from Account a where a.email = :email")
-public class Account implements java.io.Serializable {
-
-	public static final String FIND_BY_EMAIL = "Account.findByEmail";
+public class Account {
 
 	@Id
-	@GeneratedValue
-	private Long id;
-
-	@Column(unique = true)
+	private String id;
 	private String email;
+	private String passwordHash;
+	private Role role;
+
 	
-	@JsonIgnore
-	private String password;
-
-	private String role = "ROLE_USER";
-
-    protected Account() {
-
+	public Account() {
 	}
 	
-	public Account(String email, String password, String role) {
+	public Account(String email, String passwordHash) {
 		this.email = email;
-		this.password = password;
+		this.passwordHash = passwordHash;
+	}
+
+	public Account(String email, String passwordHash, Role role) {
+		this.email = email;
+		this.passwordHash = passwordHash;
 		this.role = role;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-    public String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
@@ -46,19 +33,20 @@ public class Account implements java.io.Serializable {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPasswordHash() {
+		return passwordHash;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
+
 }

@@ -3,9 +3,9 @@ package lendmanager.mongo.rest;
 import java.util.Calendar;
 import java.util.List;
 
-import lendmanager.mongo.Item;
-import lendmanager.mongo.ItemRepository;
-import lendmanager.mongo.Person;
+import lendmanager.items.Item;
+import lendmanager.items.ItemRepository;
+import lendmanager.person.Person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

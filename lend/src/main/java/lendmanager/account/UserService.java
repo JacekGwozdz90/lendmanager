@@ -10,16 +10,20 @@ import org.springframework.security.core.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private AccountRepository accountRepository;
 	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
+	
 	@PostConstruct	
 	protected void initialize() {
-		accountRepository.save(new Account("user", "demo", "ROLE_USER"));
-		accountRepository.save(new Account("admin", "admin", "ROLE_ADMIN"));
+		accountRepository.save(new Account("user", passwordEncoder.encode("demo"), Role.ROLE_USER));
+		accountRepository.save(new Account("admin", passwordEncoder.encode("admin"), Role.ROLE_ADMIN));
 	}
 	
 	@Override
@@ -40,11 +44,11 @@ public class UserService implements UserDetailsService {
 	}
 	
 	private User createUser(Account account) {
-		return new User(account.getEmail(), account.getPassword(), Collections.singleton(createAuthority(account)));
+		return new User(account.getEmail(), passwordEncoder.encode(account.getPasswordHash()), Collections.singleton(createAuthority(account)));
 	}
 
 	private GrantedAuthority createAuthority(Account account) {
-		return new SimpleGrantedAuthority(account.getRole());
+		return new SimpleGrantedAuthority(account.getRole().toString());
 	}
 
 }

@@ -1,4 +1,4 @@
-package lendmanager.mongo;
+package lendmanager.person;
 
 import org.springframework.data.annotation.Id;
 

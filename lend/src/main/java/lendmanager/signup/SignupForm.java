@@ -1,8 +1,10 @@
 package lendmanager.signup;
 
-import org.hibernate.validator.constraints.*;
-
 import lendmanager.account.Account;
+import lendmanager.account.Role;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 public class SignupForm {
 
@@ -33,6 +35,6 @@ public class SignupForm {
 	}
 
 	public Account createAccount() {
-        return new Account(getEmail(), getPassword(), "ROLE_USER");
+        return new Account(getEmail(), getPassword(), Role.ROLE_USER);
 	}
 }

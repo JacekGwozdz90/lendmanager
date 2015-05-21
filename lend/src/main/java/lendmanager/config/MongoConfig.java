@@ -9,8 +9,8 @@ import com.mongodb.Mongo;
 
 
 @Configuration
-@EnableMongoRepositories(basePackages={"lendmanager.mongo"})
-@ComponentScan(basePackages={"lendmanager.mongo"})
+@EnableMongoRepositories(basePackages={"lendmanager.items", "lendmanager.person", "lendmanager.account"})
+@ComponentScan(basePackages={"lendmanager.*"})
 class MongoConfig extends AbstractMongoConfiguration {
 
 	@Override

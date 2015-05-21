@@ -1,6 +1,8 @@
-package lendmanager.mongo;
+package lendmanager.items;
 
 import java.util.Date;
+
+import lendmanager.person.Person;
 
 import org.springframework.data.annotation.Id;
 
