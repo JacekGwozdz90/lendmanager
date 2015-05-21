@@ -11,6 +11,7 @@ public class Item {
     @Id
     private String id;
     private String name;
+    private Person owner;
     private Person person;
     private Date lendDate;
     private Date returnDate;
@@ -36,6 +37,14 @@ public class Item {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Person getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Person owner) {
+		this.owner = owner;
 	}
 
 	public Person getPerson() {

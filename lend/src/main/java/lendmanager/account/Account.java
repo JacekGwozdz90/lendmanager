@@ -6,6 +6,7 @@ public class Account {
 
 	@Id
 	private String id;
+	
 	private String email;
 	private String passwordHash;
 	private Role role;

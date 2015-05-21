@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,6 +31,9 @@ public class UserServiceTest {
 	@Mock
 	private AccountRepository accountRepositoryMock;
 
+	@Mock
+	private PasswordEncoder passwordEncoderMock;
+	
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
