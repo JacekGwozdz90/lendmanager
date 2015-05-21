@@ -1,14 +1,18 @@
 package lendmanager.mongo.rest;
 
+import java.util.Calendar;
 import java.util.List;
 
 import lendmanager.mongo.Item;
 import lendmanager.mongo.ItemRepository;
+import lendmanager.mongo.Person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.common.collect.Lists;
 
 
 @RestController
@@ -23,4 +27,16 @@ public class RestItemController {
 		return itemRepository.findAll();
 	}
 	
+	@RequestMapping(value = "/addSampleData", method = RequestMethod.GET)
+	public String createTestItems() {
+		List<Item> entites = Lists.newArrayList();
+		Item item = new Item("kilof");
+		item.setLendDate(Calendar.getInstance().getTime());
+		item.setPerson(new Person("to nie", "ja"));
+		entites.add(item);
+		entites.add(new Item("dlugopis"));
+		entites.add(new Item("komputer"));
+		itemRepository.save(entites);
+		return "Items saved";
+	}
 }
