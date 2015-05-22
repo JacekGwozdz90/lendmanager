@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{view.index.title}">Add Item</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<div class="container">
+    <!-- /* Handle the flash message */-->
+    <th:block th:if="${message != null}">
+        <!-- /* The message code is returned from the @Controller */ -->
+        <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">
+            &nbsp;</div>
+    </th:block>
+    <table class="table table-striped">
+        <caption>Item</caption>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Owner</th>
+            <th>Person</th>
+            <th>Lend Date</th>
+            <th>Return Date</th>
+            <th>Remind Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${itemList}">
+            <td><input type="text" th:field="*{itemList.name}" readonly="readonly"/></td>
+            <td><input type="text" th:field="*{itemList.owner}"/></td>
+            <td><input type="text" th:field="*{itemList.person}"/></td>
+            <td><input type="text" th:field="*{itemList.lendDate}"/></td>
+            <td><input type="text" th:field="*{itemList.returnDate}"/></td>
+            <td><input type="text" th:field="*{itemList.remindDate}"/></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

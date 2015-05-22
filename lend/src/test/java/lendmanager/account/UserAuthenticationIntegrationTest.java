@@ -1,5 +1,6 @@
 package lendmanager.account;
 
+import lendmanager.config.WebSecurityConfigurationAware;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.security.core.context.SecurityContext;
@@ -12,8 +13,6 @@ import javax.servlet.http.HttpSession;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-
-import lendmanager.config.WebSecurityConfigurationAware;
 
 public class UserAuthenticationIntegrationTest extends WebSecurityConfigurationAware {
 

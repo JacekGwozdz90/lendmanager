@@ -1,9 +1,9 @@
 package lendmanager.support.web;
 
-import static lendmanager.support.web.Message.MESSAGE_ATTRIBUTE;
-
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import static lendmanager.support.web.Message.MESSAGE_ATTRIBUTE;
 
 public final class MessageHelper {
 

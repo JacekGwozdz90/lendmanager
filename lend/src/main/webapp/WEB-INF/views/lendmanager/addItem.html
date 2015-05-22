@@ -16,9 +16,68 @@
         <!-- /* The message code is returned from the @Controller */ -->
         <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
     </th:block>
-    <p>
-        Here will be form for creating item!
-    </p>
+
+    <form class="form-horizontal" method="post" th:action="@{/itemAdd/}" th:object="${itemAddForm}">
+        <th:block th:if="${#fields.hasErrors('${itemAddForm.*}')}">
+            <div th:replace="fragments/alert :: alert (type='danger', message='Form contains errors. Please try again.')">
+                Alert
+            </div>
+        </th:block>
+        <fieldset>
+            <legend>Add Item</legend>
+            <div class="form-group">
+                <label for="name" class="col-lg-2 control-label">Item name</label>
+
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="name" placeholder="Item Name" name="Item name"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="personName" class="col-lg-2 control-label">Person Name</label>
+
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="personName" placeholder="Person Name"
+                           name="Person Name"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="personLastName" class="col-lg-2 control-label">Person Last Name</label>
+
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="personLastName" placeholder="Person Last Name"
+                           name="Person Last Name"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lendDate" class="col-lg-2 control-label">Lend date</label>
+
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="lendDate" placeholder="dd-MM-yyyy" name="Lend date"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="returnDate" class="col-lg-2 control-label">Return date</label>
+
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="returnDate" placeholder="dd-MM-yyyy"
+                           name="Return date"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="remindDate" class="col-lg-2 control-label">Remind date</label>
+
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="remindDate" placeholder="dd-MM-yyyy"
+                           name="Remind date"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <button type="submit" class="btn btn-default">Add item</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
 </div>
 </body>
 </html>
