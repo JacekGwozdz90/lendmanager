@@ -109,10 +109,53 @@ public class RestItemController {
 				lastName);
 	}
 
+	/**
+	 * Adds item to database. Item should be sent in POST body as JSON object.
+	 * 
+	 * @param item item to be saved, sent as request body
+	 */
 	@RequestMapping(value = "/data/add", method = RequestMethod.POST, consumes = "application/json")
 	public void addItem(@RequestBody Item item) {
-		System.out.println(item);
-		//TODO - testing
+		if (item != null) {
+			itemRepository.save(item);
+		}
+	}
+
+	/**
+	 * Updates item with specified id, using values send in POST body. If
+	 * request param saveNulls is present and it's value is "true", all nulls
+	 * present in JSON are persisted in database. Otherwise, only attributes
+	 * that are specified in JSON are updated.
+	 * 
+	 * 
+	 * @param item
+	 *            item to be updated, sent as request body
+	 * @param itemId
+	 *            id of item to be updated
+	 * @param saveNulls
+	 *            specifies, whether nulls in POST Json should be persisted or
+	 *            not
+	 */
+	@RequestMapping(value = "/data/update/{itemId}", method = RequestMethod.POST, consumes = "application/json")
+	public void updateItem(
+			@RequestBody Item item,
+			@PathVariable("itemId") String itemId,
+			@RequestParam(value = "saveNulls", required = false, defaultValue = "false") boolean saveNulls) {
+		Item itemToUpdate = itemRepository.findOne(itemId);
+		if (item.getLendDate() != null)
+			itemToUpdate.setLendDate(item.getLendDate());
+		if (item.getName() != null)
+			itemToUpdate.setName(item.getName());
+		if (item.getOwner() != null)
+			itemToUpdate.setOwner(item.getOwner());
+		if (item.getPerson() != null)
+			itemToUpdate.setPerson(item.getPerson());
+		if (item.getRemindDate() != null)
+			itemToUpdate.setRemindDate(item.getRemindDate());
+		if (item.getReturnDate() != null)
+			itemToUpdate.setReturnDate(item.getReturnDate());
+		itemToUpdate.setId(itemId);
+		itemRepository.save(itemToUpdate);
 	}
 
 	/**

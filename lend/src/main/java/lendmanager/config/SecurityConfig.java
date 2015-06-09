@@ -42,7 +42,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/signinbyfacebook").permitAll()
+                .antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/signinbyfacebook", "/rest/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -64,6 +64,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .rememberMe()
                 .rememberMeServices(rememberMeServices())
-                .key("remember-me-key");
+                .key("remember-me-key")
+                .and()
+            .csrf().disable();
     }
 }
