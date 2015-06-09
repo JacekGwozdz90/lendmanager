@@ -9,6 +9,7 @@ import lendmanager.person.Person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +35,29 @@ public class RestItemController {
 	}
 
 	/**
+	 * Returns list of all items owned by specified person found in database.
+	 * Optional QueryParam <code>useFacebook</code> specifies whether simple or
+	 * facebook id should be used in query. The default configuration searches
+	 * for simple id.
+	 * 
+	 * @param ownerId
+	 *            simple or facebook id of an owner
+	 * @param useFacebook
+	 *            parameted specifying id type
+	 * @return list of found items owned by
+	 */
+	@RequestMapping(value = "/query/ownedBy/{ownerId}", method = RequestMethod.GET, produces = "application/json")
+	public List<Item> getAllItemsOwnedBy(
+			@PathVariable("ownerId") Integer ownerId,
+			@RequestParam(required = false) boolean useFacebook) {
+		if (useFacebook) {
+			return itemRepository.findByOwnerFacebookId(ownerId);
+		} else {
+			return itemRepository.findByOwnerId(ownerId);
+		}
+	}
+
+	/**
 	 * Return list of items with given <code>name</code> attribute.
 	 * 
 	 * @param name
@@ -48,10 +72,12 @@ public class RestItemController {
 	/**
 	 * Returns list of items lent to person of given id. Optional QueryParam
 	 * <code>useFacebook</code> specifies whether simple or facebook id should
-	 * be used in query. The default configuration searched for simple id.
+	 * be used in query. The default configuration searches for simple id.
 	 * 
-	 * @param personId - simple or facebook id of a person
-	 * @param useFacebook - parameted specifying id type
+	 * @param personId
+	 *            simple or facebook id of a person
+	 * @param useFacebook
+	 *            parameted specifying id type
 	 * @return list of items lent to person of given id.
 	 */
 	@RequestMapping(value = "/query/lentTo/{personId}", method = RequestMethod.GET, produces = "application/json")
@@ -68,8 +94,11 @@ public class RestItemController {
 	/**
 	 * Returns list of items lent to person of given first name and last name.
 	 * Both arguments are required.
-	 * @param firstName - first name of person
-	 * @param lastName - last name of person
+	 * 
+	 * @param firstName
+	 *            first name of person
+	 * @param lastName
+	 *            last name of person
 	 * @return list of items lent to person of given first name and last name
 	 */
 	@RequestMapping(value = "/query/lentTo/firstName/{fName}/lastName/{lName}", method = RequestMethod.GET, produces = "application/json")
@@ -80,7 +109,12 @@ public class RestItemController {
 				lastName);
 	}
 
-	
+	@RequestMapping(value = "/data/add", method = RequestMethod.POST, consumes = "application/json")
+	public void addItem(@RequestBody Item item) {
+		System.out.println(item);
+		//TODO - testing
+	}
+
 	/**
 	 * Development method.
 	 * 

@@ -21,5 +21,10 @@ public interface ItemRepository extends MongoRepository<Item, String> {
     public List<Item> findByPersonFirstNameAndPersonLastName(String firstName, String lastName);
     
     public List<Item> findByNameAndPersonFirstNameAndPersonLastName(String name, String firstName, String lastName);
+
+	public List<Item> findByOwnerId(Integer ownerId);
+	
+	public List<Item> findByOwnerFacebookId(Integer ownerId);
+	
     
 }
