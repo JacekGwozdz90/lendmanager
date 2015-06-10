@@ -2,8 +2,8 @@ package lendmanager.controllers;
 
 import java.security.Principal;
 
+import lendmanager.account.Account;
 import lendmanager.account.AccountRepository;
-import lendmanager.items.Item;
 import lendmanager.items.ItemRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,9 @@ public class ItemListController {
 
     @RequestMapping("/")
     public String showItemAddForm(Model model, Principal principal) {
-        model.addAttribute("itemList", itemRepository.findAll());
+    	Account account = accountRepository.findByEmail(principal.getName());
+    	String accountId = account.getId();
+        model.addAttribute("itemList", itemRepository.findByOwnerAccountId(accountId));
         System.out.println("Add  Item list to show");
         return "lendmanager/listItem";
     }

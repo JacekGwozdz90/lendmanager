@@ -170,8 +170,8 @@ public class RestItemController {
 		Item item = new Item("kilof");
 		item.setLendDate(Calendar.getInstance().getTime());
 		Person person = new Person("anna", "kowalska");
-		person.setId(1);
-		person.setFacebookId(2);
+		person.setId("1");
+		person.setFacebookId("2");
 		item.setPerson(person);
 
 		entites.add(item);

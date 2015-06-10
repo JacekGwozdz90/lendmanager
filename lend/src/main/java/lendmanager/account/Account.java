@@ -1,16 +1,18 @@
 package lendmanager.account;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 public class Account {
 
 	@Id
 	private String id;
 	
+	@Indexed(unique=true)
 	private String email;
+	
 	private String passwordHash;
 	private Role role;
-
 	
 	public Account() {
 	}
@@ -24,6 +26,14 @@ public class Account {
 		this.email = email;
 		this.passwordHash = passwordHash;
 		this.role = role;
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getEmail() {

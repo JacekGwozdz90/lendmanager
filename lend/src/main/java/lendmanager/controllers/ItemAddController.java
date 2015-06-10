@@ -1,8 +1,13 @@
 package lendmanager.controllers;
 
+import java.security.Principal;
+
 import lendmanager.items.ItemAddForm;
 import lendmanager.items.ItemRepository;
+import lendmanager.person.Person;
+import lendmanager.person.PersonLookupHelper;
 import lendmanager.support.web.MessageHelper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +27,10 @@ public class ItemAddController {
 
 	@Autowired 
 	private ItemRepository itemRepository;
-	
 
+	@Autowired
+	private PersonLookupHelper personLookup;
+	
 	@RequestMapping("/")
 	public String showItemAddForm(Model model) {
 		model.addAttribute(new ItemAddForm());
@@ -32,13 +39,16 @@ public class ItemAddController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String addItem(@ModelAttribute ItemAddForm itemAddForm, Errors errors, RedirectAttributes ra) {
+	public String addItem(@ModelAttribute ItemAddForm itemAddForm, Errors errors, RedirectAttributes ra, Principal principal) {
 		if (errors.hasErrors()) {
 			return "ERROR";
 		}
-		System.out.println("Adding item");
-		itemRepository.save(itemAddForm.createItem());
-		System.out.print("Item saved to repository");
+		
+		// TODO - change borrowing person creation to lookup / creation
+		Person person = new Person(itemAddForm.getPersonName(), itemAddForm.getPersonLastName());
+		Person owner = personLookup.findPersonByEmail(principal.getName()); 
+	
+		itemRepository.save(itemAddForm.createItem(itemAddForm, owner, person));
 
 		MessageHelper.addSuccessAttribute(ra, "Item added");
 		return "redirect:/";

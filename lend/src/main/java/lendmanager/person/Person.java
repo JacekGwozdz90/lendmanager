@@ -5,29 +5,37 @@ import org.springframework.data.annotation.Id;
 public class Person {
 
 	@Id
-	private Integer id;
-	private Integer facebookId;
+	private String id;
+	private String facebookId;
 	private String firstName;
 	private String lastName;
+	private String accountId;
+	
+	public Person() {
+	}
 	
 	public Person(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
 
-	public Integer getId() {
+	public Person(String accountId) {
+		this.accountId = accountId;
+	}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public Integer getFacebookId() {
+	public String getFacebookId() {
 		return facebookId;
 	}
 
-	public void setFacebookId(Integer facebookId) {
+	public void setFacebookId(String facebookId) {
 		this.facebookId = facebookId;
 	}
 
@@ -45,6 +53,14 @@ public class Person {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
 	}
 	
 }
