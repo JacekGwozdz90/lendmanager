@@ -11,7 +11,9 @@ public class Item {
     @Id
     private String id;
     private String name;
+    
     private Person owner;
+    
     private Person person;
     private Date lendDate;
     private Date returnDate;

@@ -3,6 +3,7 @@ package lendmanager.mongo.rest;
 import java.util.Calendar;
 import java.util.List;
 
+import lendmanager.error.ItemNotFoundException;
 import lendmanager.items.Item;
 import lendmanager.items.ItemRepository;
 import lendmanager.person.Person;
@@ -33,6 +34,15 @@ public class RestItemController {
 	public List<Item> getAllItems() {
 		return itemRepository.findAll();
 	}
+	
+	/**
+	 * Removes all items - developer use only!.
+	 */
+	@RequestMapping(value = "/delete/all", method = RequestMethod.GET, produces = "application/json")
+	public String deleteAllItems() {
+		itemRepository.deleteAll();
+		return "Deleted.";
+	} 
 
 	/**
 	 * Returns list of all items owned by specified person found in database.
@@ -47,8 +57,7 @@ public class RestItemController {
 	 * @return list of found items owned by
 	 */
 	@RequestMapping(value = "/query/ownedBy/{ownerId}", method = RequestMethod.GET, produces = "application/json")
-	public List<Item> getAllItemsOwnedBy(
-			@PathVariable("ownerId") Integer ownerId,
+	public List<Item> getAllItemsOwnedBy(@PathVariable("ownerId") Integer ownerId,
 			@RequestParam(required = false) boolean useFacebook) {
 		if (useFacebook) {
 			return itemRepository.findByOwnerFacebookId(ownerId);
@@ -81,8 +90,7 @@ public class RestItemController {
 	 * @return list of items lent to person of given id.
 	 */
 	@RequestMapping(value = "/query/lentTo/{personId}", method = RequestMethod.GET, produces = "application/json")
-	public List<Item> getItemsByPersonId(
-			@PathVariable("personId") Integer personId,
+	public List<Item> getItemsByPersonId(@PathVariable("personId") Integer personId,
 			@RequestParam(required = false) boolean useFacebook) {
 		if (useFacebook) {
 			return itemRepository.findByPersonFacebookId(personId);
@@ -102,17 +110,16 @@ public class RestItemController {
 	 * @return list of items lent to person of given first name and last name
 	 */
 	@RequestMapping(value = "/query/lentTo/firstName/{fName}/lastName/{lName}", method = RequestMethod.GET, produces = "application/json")
-	public List<Item> getItemsByPersonName(
-			@PathVariable("fName") String firstName,
+	public List<Item> getItemsByPersonName(@PathVariable("fName") String firstName,
 			@PathVariable("lName") String lastName) {
-		return itemRepository.findByPersonFirstNameAndPersonLastName(firstName,
-				lastName);
+		return itemRepository.findByPersonFirstNameAndPersonLastName(firstName, lastName);
 	}
 
 	/**
 	 * Adds item to database. Item should be sent in POST body as JSON object.
 	 * 
-	 * @param item item to be saved, sent as request body
+	 * @param item
+	 *            item to be saved, sent as request body
 	 */
 	@RequestMapping(value = "/data/add", method = RequestMethod.POST, consumes = "application/json")
 	public void addItem(@RequestBody Item item) {
@@ -137,24 +144,36 @@ public class RestItemController {
 	 *            not
 	 */
 	@RequestMapping(value = "/data/update/{itemId}", method = RequestMethod.POST, consumes = "application/json")
-	public void updateItem(
-			@RequestBody Item item,
-			@PathVariable("itemId") String itemId,
+	public void updateItem(@RequestBody Item item, @PathVariable("itemId") String itemId,
 			@RequestParam(value = "saveNulls", required = false, defaultValue = "false") boolean saveNulls) {
+		
 		Item itemToUpdate = itemRepository.findOne(itemId);
-		// TODO IF
-		if (item.getLendDate() != null)
+
+		if (itemToUpdate == null) {
+			throw new ItemNotFoundException("Update failed - not existing item: "+itemId);
+		}
+		
+		if (saveNulls) {
 			itemToUpdate.setLendDate(item.getLendDate());
-		if (item.getName() != null)
 			itemToUpdate.setName(item.getName());
-		if (item.getOwner() != null)
 			itemToUpdate.setOwner(item.getOwner());
-		if (item.getPerson() != null)
 			itemToUpdate.setPerson(item.getPerson());
-		if (item.getRemindDate() != null)
 			itemToUpdate.setRemindDate(item.getRemindDate());
-		if (item.getReturnDate() != null)
 			itemToUpdate.setReturnDate(item.getReturnDate());
+		} else {
+			if (item.getLendDate() != null)
+				itemToUpdate.setLendDate(item.getLendDate());
+			if (item.getName() != null)
+				itemToUpdate.setName(item.getName());
+			if (item.getOwner() != null)
+				itemToUpdate.setOwner(item.getOwner());
+			if (item.getPerson() != null)
+				itemToUpdate.setPerson(item.getPerson());
+			if (item.getRemindDate() != null)
+				itemToUpdate.setRemindDate(item.getRemindDate());
+			if (item.getReturnDate() != null)
+				itemToUpdate.setReturnDate(item.getReturnDate());
+		}
 		itemToUpdate.setId(itemId);
 		itemRepository.save(itemToUpdate);
 	}

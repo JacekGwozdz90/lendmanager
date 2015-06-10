@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-/**
- * Just stub. 
- */
 @Controller
 @RequestMapping("/itemAdd")
 public class ItemAddController {
@@ -34,7 +31,6 @@ public class ItemAddController {
 	@RequestMapping("/")
 	public String showItemAddForm(Model model) {
 		model.addAttribute(new ItemAddForm());
-		System.out.println("Add Item form shown");
 		return "lendmanager/addItem";
 	}
 
@@ -44,8 +40,7 @@ public class ItemAddController {
 			return "ERROR";
 		}
 		
-		// TODO - change borrowing person creation to lookup / creation
-		Person person = new Person(itemAddForm.getPersonName(), itemAddForm.getPersonLastName());
+		Person person = personLookup.findByNameOrCreate(itemAddForm.getPersonName(), itemAddForm.getPersonLastName());
 		Person owner = personLookup.findPersonByEmail(principal.getName()); 
 	
 		itemRepository.save(itemAddForm.createItem(itemAddForm, owner, person));

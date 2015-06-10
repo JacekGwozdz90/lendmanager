@@ -29,7 +29,6 @@ public class ItemListController {
     	Account account = accountRepository.findByEmail(principal.getName());
     	String accountId = account.getId();
         model.addAttribute("itemList", itemRepository.findByOwnerAccountId(accountId));
-        System.out.println("Add  Item list to show");
         return "lendmanager/listItem";
     }
 

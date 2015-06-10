@@ -35,7 +35,6 @@ public class RestAccountController {
 	public String deleteAllAccounts() {
 		accountRepository.deleteAll();
 		return "Deleted.";
-		
 	}
 	
 }

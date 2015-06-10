@@ -25,9 +25,17 @@ public class RestPersonController {
 	 * @return list of found person
 	 */
 	@RequestMapping(value = "/query/all", method = RequestMethod.GET, produces = "application/json")
-	public List<Person> getAllItems() {
+	public List<Person> getAllPerson() {
 		return personRepository.findAll();
 	} 
 	
+	/**
+	 * Removes all person - developer use only!
+	 */
+	@RequestMapping(value = "/delete/all", method = RequestMethod.GET, produces = "application/json")
+	public String deleteAllPerson() {
+		personRepository.deleteAll();
+		return "Deleted.";
+	} 
 	
 }

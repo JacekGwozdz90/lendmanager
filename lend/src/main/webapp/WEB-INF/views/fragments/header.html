@@ -19,6 +19,7 @@
                 <li class="active"><a href="#" th:href="@{/}">Home</a></li>
                 <li><a href="/itemAdd/">Add Item</a></li>
                 <li><a href="/itemList/">List Items</a></li>
+                <li><a href="/accountData/">Account Data</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">

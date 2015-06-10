@@ -63,4 +63,9 @@ public class Person {
 		this.accountId = accountId;
 	}
 	
+	@Override
+	public String toString() {
+		return firstName + " " + lastName;
+	}
+	
 }
