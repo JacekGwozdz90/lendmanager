@@ -40,7 +40,12 @@
             <td th:text="${item.lendDate}"></td>
             <td th:text="${item.returnDate}"></td>
             <td th:text="${item.remindDate}"></td>
-            <td><input class="btn btn-default" type="button" value="Modify"></input></td>
+            <td>
+            	<form th:action="@{/editItem/}" method="post">
+            	  <input type="hidden" th:value="${item.id}" />
+            	  <input class="btn btn-default" type="submit" value="Modify"/>
+            	</form>
+            </td>
         </tr>
         </tbody>
     </table>

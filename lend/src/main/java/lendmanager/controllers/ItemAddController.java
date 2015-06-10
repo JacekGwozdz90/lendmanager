@@ -2,7 +2,7 @@ package lendmanager.controllers;
 
 import java.security.Principal;
 
-import lendmanager.items.ItemAddForm;
+import lendmanager.items.ItemDataForm;
 import lendmanager.items.ItemRepository;
 import lendmanager.person.Person;
 import lendmanager.person.PersonLookupHelper;
@@ -32,15 +32,15 @@ public class ItemAddController {
 	@Autowired
 	private PersonLookupHelper personLookup;
 	
-	@RequestMapping("/")
+	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String showItemAddForm(Model model) {
-		model.addAttribute(new ItemAddForm());
+		model.addAttribute("itemAddForm", new ItemDataForm());
 		model.addAttribute("personList", personRepository.findAll());
 		return "lendmanager/addItem";
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String addItem(@ModelAttribute ItemAddForm itemAddForm, Errors errors, RedirectAttributes ra, Principal principal) {
+	public String addItem(@ModelAttribute ItemDataForm itemAddForm, Errors errors, RedirectAttributes ra, Principal principal) {
 		
 		if (errors.hasErrors()) {
 			return "ERROR";
@@ -59,7 +59,7 @@ public class ItemAddController {
 		
 		itemRepository.save(itemAddForm.createItem(itemAddForm, owner, person));
 
-		MessageHelper.addSuccessAttribute(ra, "Item added");
+		MessageHelper.addSuccessAttribute(ra, "Item added successfully!");
 		return "redirect:/";
 	}
 }

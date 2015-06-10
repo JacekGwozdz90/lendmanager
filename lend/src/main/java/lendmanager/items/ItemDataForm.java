@@ -12,31 +12,32 @@ import java.text.SimpleDateFormat;
  * Created by Jacek on 2015-05-22.
  */
 
-public class ItemAddForm {
+public class ItemDataForm {
 
 	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
 
-	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
+	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
 	private String name;
 
-	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
+	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
 	private String personId;
 	
-	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
+	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
 	private String personName;
 
-	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
+	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
 	private String personLastName;
 
-	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
+	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
 	private String lendDate;
 
-	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
+	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
 	private String returnDate;
 
-	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
+	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
 	private String remindDate;
 	
+	private String itemId;
 	
 	public String getName() {
 		return name;
@@ -93,8 +94,16 @@ public class ItemAddForm {
 	public void setRemindDate(String remindDate) {
 		this.remindDate = remindDate;
 	}
+	
+	public String getItemId() {
+		return itemId;
+	}
 
-	public Item createItem(ItemAddForm form, Person owner, Person person) {
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
+	}
+
+	public Item createItem(ItemDataForm form, Person owner, Person person) {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		Item item = new Item();
 		item.setName(form.getName());
