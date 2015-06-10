@@ -41,9 +41,11 @@ public class ItemAddController {
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String addItem(@ModelAttribute ItemAddForm itemAddForm, Errors errors, RedirectAttributes ra, Principal principal) {
+		
 		if (errors.hasErrors()) {
 			return "ERROR";
 		}
+		
 		Person person;
 		String personId = itemAddForm.getPersonId();
 		
