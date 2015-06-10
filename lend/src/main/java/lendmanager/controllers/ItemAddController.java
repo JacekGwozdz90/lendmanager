@@ -6,6 +6,7 @@ import lendmanager.items.ItemAddForm;
 import lendmanager.items.ItemRepository;
 import lendmanager.person.Person;
 import lendmanager.person.PersonLookupHelper;
+import lendmanager.person.PersonRepository;
 import lendmanager.support.web.MessageHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,16 @@ public class ItemAddController {
 	@Autowired 
 	private ItemRepository itemRepository;
 
+	@Autowired 
+	private PersonRepository personRepository;
+	
 	@Autowired
 	private PersonLookupHelper personLookup;
 	
 	@RequestMapping("/")
 	public String showItemAddForm(Model model) {
 		model.addAttribute(new ItemAddForm());
+		model.addAttribute("personList", personRepository.findAll());
 		return "lendmanager/addItem";
 	}
 
@@ -39,10 +44,17 @@ public class ItemAddController {
 		if (errors.hasErrors()) {
 			return "ERROR";
 		}
+		Person person;
+		String personId = itemAddForm.getPersonId();
 		
-		Person person = personLookup.findByNameOrCreate(itemAddForm.getPersonName(), itemAddForm.getPersonLastName());
+		if (personId != null && !personId.trim().isEmpty()) {
+			person = personRepository.findOne(personId);
+		} else {
+			person = personLookup.findByNameOrCreate(itemAddForm.getPersonName(), itemAddForm.getPersonLastName());
+		}
+		
 		Person owner = personLookup.findPersonByEmail(principal.getName()); 
-	
+		
 		itemRepository.save(itemAddForm.createItem(itemAddForm, owner, person));
 
 		MessageHelper.addSuccessAttribute(ra, "Item added");

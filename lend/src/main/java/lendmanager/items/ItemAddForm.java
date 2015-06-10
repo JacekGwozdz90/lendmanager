@@ -20,6 +20,9 @@ public class ItemAddForm {
 	private String name;
 
 	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
+	private String personId;
+	
+	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
 	private String personName;
 
 	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
@@ -33,7 +36,8 @@ public class ItemAddForm {
 
 	@NotBlank(message = ItemAddForm.NOT_BLANK_MESSAGE)
 	private String remindDate;
-
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -42,6 +46,14 @@ public class ItemAddForm {
 		this.name = name;
 	}
 
+	public String getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(String personId) {
+		this.personId = personId;
+	}
+	
 	public String getPersonName() {
 		return personName;
 	}
