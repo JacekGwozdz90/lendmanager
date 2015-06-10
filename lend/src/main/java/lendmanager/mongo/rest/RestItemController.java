@@ -142,6 +142,7 @@ public class RestItemController {
 			@PathVariable("itemId") String itemId,
 			@RequestParam(value = "saveNulls", required = false, defaultValue = "false") boolean saveNulls) {
 		Item itemToUpdate = itemRepository.findOne(itemId);
+		// TODO IF
 		if (item.getLendDate() != null)
 			itemToUpdate.setLendDate(item.getLendDate());
 		if (item.getName() != null)
