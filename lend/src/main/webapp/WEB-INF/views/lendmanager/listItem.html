@@ -29,16 +29,18 @@
             <th>Lend Date</th>
             <th>Return Date</th>
             <th>Remind Date</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${itemList}">
-            <td><input type="text" th:field="*{itemList.name}" readonly="readonly"/></td>
-            <td><input type="text" th:field="*{itemList.owner}"/></td>
-            <td><input type="text" th:field="*{itemList.person}"/></td>
-            <td><input type="text" th:field="*{itemList.lendDate}"/></td>
-            <td><input type="text" th:field="*{itemList.returnDate}"/></td>
-            <td><input type="text" th:field="*{itemList.remindDate}"/></td>
+            <td th:text="${item.name}">></td>
+            <td th:text="${item.owner}"></td>
+            <td th:text="${item.person}"></td>
+            <td th:text="${item.lendDate}"></td>
+            <td th:text="${item.returnDate}"></td>
+            <td th:text="${item.remindDate}"></td>
+            <td><input class="btn btn-default" type="button" value="Modify"></input></td>
         </tr>
         </tbody>
     </table>
