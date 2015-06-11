@@ -80,6 +80,7 @@ public class SigninController {
 			person.setFacebookId(facebook.getId());
 			person.setFirstName(facebook.getName().split(" ")[0]);
 			person.setLastName(facebook.getName().split(" ")[facebook.getName().split(" ").length-1]);
+			person.setAccountId(account.getId());
 			personRepository.save(person);
 			userService.signin(account);
 
