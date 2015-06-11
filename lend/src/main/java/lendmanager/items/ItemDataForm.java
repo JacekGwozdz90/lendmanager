@@ -4,18 +4,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import javax.validation.constraints.NotNull;
-
 import lendmanager.person.Person;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Created by Jacek on 2015-05-22.
  */
-
 public class ItemDataForm {
 
 	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
@@ -111,6 +107,7 @@ public class ItemDataForm {
 		item.setName(form.getName());
 		item.setOwner(owner);
 		item.setPerson(person);
+		
 		try {
 			item.setLendDate(dateFormat.parse(form.getLendDate()));
 		} catch (ParseException e) {
