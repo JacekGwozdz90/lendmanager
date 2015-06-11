@@ -42,7 +42,7 @@
             <td th:text="${item.remindDate}"></td>
             <td>
             	<form th:action="@{/editItem/}" method="post">
-            	  <input type="hidden" th:value="${item.id}" />
+            	  <input class="form-control" name="itemId" type="hidden" th:value="${item.id}"  id="itemId" />
             	  <input class="btn btn-default" type="submit" value="Modify"/>
             	</form>
             </td>

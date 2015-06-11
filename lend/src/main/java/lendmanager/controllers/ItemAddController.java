@@ -2,6 +2,8 @@ package lendmanager.controllers;
 
 import java.security.Principal;
 
+import javax.validation.Valid;
+
 import lendmanager.items.ItemDataForm;
 import lendmanager.items.ItemRepository;
 import lendmanager.person.Person;
@@ -12,7 +14,7 @@ import lendmanager.support.web.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,10 +42,13 @@ public class ItemAddController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String addItem(@ModelAttribute ItemDataForm itemAddForm, Errors errors, RedirectAttributes ra, Principal principal) {
+	public String addItem(@Valid @ModelAttribute ItemDataForm itemAddForm, BindingResult bindingResult, Model model, RedirectAttributes ra, Principal principal) {
 		
-		if (errors.hasErrors()) {
-			return "ERROR";
+		if (bindingResult.hasErrors()) {
+			MessageHelper.addErrorAttribute(model, "Form contains errors.");
+			model.addAttribute("itemAddForm", itemAddForm);
+			model.addAttribute("personList", personRepository.findAll());
+			return "lendmanager/addItem";
 		}
 		
 		Person person;

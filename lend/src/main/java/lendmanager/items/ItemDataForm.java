@@ -1,12 +1,16 @@
 package lendmanager.items;
 
-import lendmanager.person.Person;
-
-import org.hibernate.validator.constraints.NotBlank;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
+import javax.validation.constraints.NotNull;
+
+import lendmanager.person.Person;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Created by Jacek on 2015-05-22.
@@ -16,29 +20,27 @@ public class ItemDataForm {
 
 	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
 
-	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
+	@NotEmpty
 	private String name;
 
-	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
 	private String personId;
-	
-	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
+
 	private String personName;
 
-	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
 	private String personLastName;
 
-	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
+	@NotEmpty(message = ItemDataForm.NOT_BLANK_MESSAGE)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private String lendDate;
 
-	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
+	@NotEmpty(message = ItemDataForm.NOT_BLANK_MESSAGE)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private String returnDate;
 
-	@NotBlank(message = ItemDataForm.NOT_BLANK_MESSAGE)
 	private String remindDate;
-	
+
 	private String itemId;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -54,7 +56,7 @@ public class ItemDataForm {
 	public void setPersonId(String personId) {
 		this.personId = personId;
 	}
-	
+
 	public String getPersonName() {
 		return personName;
 	}
@@ -94,7 +96,7 @@ public class ItemDataForm {
 	public void setRemindDate(String remindDate) {
 		this.remindDate = remindDate;
 	}
-	
+
 	public String getItemId() {
 		return itemId;
 	}
@@ -111,12 +113,23 @@ public class ItemDataForm {
 		item.setPerson(person);
 		try {
 			item.setLendDate(dateFormat.parse(form.getLendDate()));
+		} catch (ParseException e) {
+			System.out.print(e.getMessage());
+			// TODO - logging
+		}
+		try {
 			item.setRemindDate(dateFormat.parse(form.getRemindDate()));
+		} catch (ParseException e) {
+			System.out.print(e.getMessage());
+			// TODO - logging
+		}
+		try {
 			item.setReturnDate(dateFormat.parse(form.getReturnDate()));
 		} catch (ParseException e) {
 			System.out.print(e.getMessage());
 			// TODO - logging
 		}
+
 		return item;
 	}
 }

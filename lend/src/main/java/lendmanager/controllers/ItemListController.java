@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * Created by Jacek on 2015-05-22.
  */
-
 @Controller
 @RequestMapping("/itemList")
 public class ItemListController {
