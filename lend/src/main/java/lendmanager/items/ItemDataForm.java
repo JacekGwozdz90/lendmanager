@@ -1,5 +1,6 @@
 package lendmanager.items;
 
+import lendmanager.notifications.EmailSendTask;
 import lendmanager.person.Person;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -117,6 +118,7 @@ public class ItemDataForm {
 			System.out.print(e.getMessage());
 			// TODO - logging
 		}
+
 		return item;
 	}
 }

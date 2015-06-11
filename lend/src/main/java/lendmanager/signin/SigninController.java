@@ -11,6 +11,7 @@ import lendmanager.account.Account;
 import lendmanager.account.AccountRepository;
 import lendmanager.account.Role;
 import lendmanager.account.UserService;
+import lendmanager.notifications.EmailSendTask;
 import lendmanager.person.Person;
 import lendmanager.person.PersonRepository;
 
@@ -69,6 +70,7 @@ public class SigninController {
 					new Reading().fields("email"));
 
 			Account account = accountRepository.findByEmail(user.getEmail());
+
 			if (account == null) {
 				account = new Account();
 				account.setId(facebook.getId());

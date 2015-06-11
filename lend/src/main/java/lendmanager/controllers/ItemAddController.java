@@ -2,8 +2,11 @@ package lendmanager.controllers;
 
 import java.security.Principal;
 
+import lendmanager.account.AccountRepository;
+import lendmanager.items.Item;
 import lendmanager.items.ItemDataForm;
 import lendmanager.items.ItemRepository;
+import lendmanager.notifications.EmailSendTask;
 import lendmanager.person.Person;
 import lendmanager.person.PersonLookupHelper;
 import lendmanager.person.PersonRepository;
@@ -32,6 +35,10 @@ public class ItemAddController {
 	@Autowired
 	private PersonLookupHelper personLookup;
 	
+	
+	@Autowired
+	private AccountRepository accountRepository;
+	
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String showItemAddForm(Model model) {
 		model.addAttribute("itemAddForm", new ItemDataForm());
@@ -56,9 +63,11 @@ public class ItemAddController {
 		}
 		
 		Person owner = personLookup.findPersonByEmail(principal.getName()); 
+		Item item = itemAddForm.createItem(itemAddForm, owner, person);
 		
 		itemRepository.save(itemAddForm.createItem(itemAddForm, owner, person));
-
+		EmailSendTask email = new EmailSendTask(accountRepository,item);
+		email.run();
 		MessageHelper.addSuccessAttribute(ra, "Item added successfully!");
 		return "redirect:/";
 	}
