@@ -4,8 +4,11 @@ import java.security.Principal;
 
 import javax.validation.Valid;
 
+import lendmanager.account.AccountRepository;
+import lendmanager.items.Item;
 import lendmanager.items.ItemDataForm;
 import lendmanager.items.ItemRepository;
+import lendmanager.notifications.EmailSendTask;
 import lendmanager.person.Person;
 import lendmanager.person.PersonLookupHelper;
 import lendmanager.person.PersonRepository;
@@ -28,6 +31,9 @@ public class ItemAddController {
 	@Autowired 
 	private ItemRepository itemRepository;
 
+	@Autowired 
+	private AccountRepository accountRepository;
+	
 	@Autowired 
 	private PersonRepository personRepository;
 	
@@ -62,9 +68,13 @@ public class ItemAddController {
 		
 		Person owner = personLookup.findPersonByEmail(principal.getName()); 
 		
-		itemRepository.save(itemAddForm.createItem(itemAddForm, owner, person));
-
+		Item item = itemAddForm.createItem(itemAddForm, owner, person);
+		itemRepository.save(item);
+		
+		EmailSendTask email = new EmailSendTask(accountRepository, item);
+		email.run();
 		MessageHelper.addSuccessAttribute(ra, "Item added successfully!");
 		return "redirect:/";
 	}
+
 }
