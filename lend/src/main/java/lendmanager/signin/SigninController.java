@@ -79,7 +79,7 @@ public class SigninController {
 			Person person = new Person();
 			person.setFacebookId(facebook.getId());
 			person.setFirstName(facebook.getName().split(" ")[0]);
-			person.setFirstName(facebook.getName().split(" ")[facebook.getName().split(" ").length-1]);
+			person.setLastName(facebook.getName().split(" ")[facebook.getName().split(" ").length-1]);
 			personRepository.save(person);
 			userService.signin(account);
 
