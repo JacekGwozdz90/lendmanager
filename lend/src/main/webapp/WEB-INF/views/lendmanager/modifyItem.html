@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{view.index.title}">Edit Item</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div class="container">
+    <!-- /* Handle the flash message */-->
+    <th:block th:if="${message != null}">
+        <!-- /* The message code is returned from the @Controller */ -->
+        <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
+    </th:block>
+
+    <form class="form-horizontal" method="post" th:action="@{/editItem/execute/}" th:object="${itemEditForm}">
+        <th:block th:if="${#fields.hasErrors('${itemEditForm.*}')}">
+            <div th:replace="fragments/alert :: alert (type='danger', message='Form contains errors. Please try again.')">
+                Alert
+            </div>
+        </th:block>
+        <fieldset>
+            <legend>Edit Item</legend>
+            <div class="form-group">
+                <label for="itemId" class="col-lg-2 control-label"  >Item id</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="itemId" th:field="*{itemId}" th:value="${id}" placeholder="Item Name" name="Item id"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-lg-2 control-label"  >Item name</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Item Name" name="Item name"/>
+                </div>
+            </div>
+           <div><legend>Person</legend></div>
+           <div id="formFirstName" class="form-group" style="display:none">
+           		<div><button type="button" class="btn btn-default"  onmousedown="changeForm()">Choose person</button></div>
+                <label for="personName" class="col-lg-2 control-label">Person Name</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" th:field="*{personName}"  id="personName" placeholder="Person Name"
+                           name="Person Name"/>
+                </div>
+            </div>
+            
+            <div id="formLastName"  class="form-group" style="display:none">
+                <label for="personLastName" class="col-lg-2 control-label">Person Last Name</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" th:field="*{personLastName}"  id="personLastName" placeholder="Person Last Name"
+                           name="Person Last Name"/>
+                </div>
+            </div> 
+            <div id="formPersonId" class="form-group">
+            <div><button type="button" class="btn btn-default"  onmousedown="changeForm()">Add new person</button></div>
+            	<label for="personId" class="col-lg-2 control-label">Choose person: </label>
+				<div id="formDiv" style="display:inline-block">
+            	<select class="form-control" th:field="*{personId}">
+					  <option th:each="person : ${personList}" 
+					          th:value="${person.id}" 
+					          th:text="${person}">Person</option>
+				</select>
+				</div>
+            </div>
+            <div><legend>Dates</legend></div>
+            <div class="form-group">
+                <label for="lendDate" class="col-lg-2 control-label">Lend date</label>
+
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" th:field="*{lendDate}" id="lendDate" placeholder="dd-MM-yyyy" name="Lend date"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="returnDate" class="col-lg-2 control-label">Return date</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" th:field="*{returnDate}" id="returnDate" placeholder="dd-MM-yyyy"
+                           name="Return date"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="remindDate" class="col-lg-2 control-label">Remind date</label>
+
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" th:field="*{remindDate}" id="remindDate" placeholder="dd-MM-yyyy"
+                           name="Remind date"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <button type="submit" class="btn btn-default">Modify item</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+	var formType = 1;
+	var opt = $('#formPersonId #formDiv');
+	var changeForm = function() {
+		if (formType == 1) {
+			$('#formPersonId').css('display', 'none');
+			opt = $('#formPersonId #formDiv');
+			$('#formPersonId #formDiv').remove();
+			$('#formFirstName').css('display', 'block');
+			$('#formLastName').css('display', 'block');
+			formType = 0;
+		} else {
+			$('#formPersonId').css('display', 'block');
+			$('#formPersonId label').append(opt);
+			$('#formFirstName').css('display', 'none');
+			$('#formLastName').css('display', 'none');
+			formType = 1;
+		}
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{view.index.title}">Account Data</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<div class="container">
+    <!-- /* Handle the flash message */-->
+    <th:block th:if="${message != null}">
+        <!-- /* The message code is returned from the @Controller */ -->
+        <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">
+            &nbsp;</div>
+    </th:block>
+
+	<form class="form-horizontal" method="post"
+		th:action="@{/accountData/modify}" th:object="${accountDataForm}">
+		  <th:block th:if="${#fields.hasErrors('${accountDataForm.*}')}">
+            <div th:replace="fragments/alert :: alert (type='danger', message='Form contains errors. Please try again.')">
+                Alert
+            </div>
+        </th:block>
+		<fieldset>
+			<legend>Modify data</legend>
+			<div class="form-group">
+				<label for="name" class="col-lg-2 control-label">Email</label>
+
+				<div class="col-lg-10">
+					<span th:text="${email}"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="firstName" class="col-lg-2 control-label">First Name</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" th:field="*{firstName}" id="firstName" name="First name" th:value="${firstName}"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="lastName" class="col-lg-2 control-label">Last Name</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" th:field="*{lastName}" id="lastName" name="Last name" value="${lastName}"/>
+				</div>
+			</div>
+			<div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <button type="submit" class="btn btn-default">Update data</button>
+                </div>
+            </div>
+		</fieldset>
+	</form>
+
+</div>
+</body>
+</html>
