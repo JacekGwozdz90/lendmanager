@@ -20,6 +20,9 @@ public class PersonLookupHelper {
 	
 	public Person findPersonByEmail(String email) {
 		Account account = accountRepository.findByEmail(email);
+		if (account == null) {
+			return null;
+		}
 		Person person = personRepository.findByAccountId(account.getId());
 		return person;		
 	}
