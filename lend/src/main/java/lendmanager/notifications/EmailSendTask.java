@@ -54,17 +54,17 @@ public class EmailSendTask extends TimerTask {
 		}
 
 		String body = "Hello!\nYou have lent item: " + item.getName()
-				+ "to the " + item.getPerson().getFirstName()
+				+ " to the " + item.getPerson().getFirstName()
 				+ item.getPerson().getLastName() + " on the "
 				+ item.getLendDate() + "\n Return date is set to : "
-				+ item.getReturnDate() + lendMailInfo
+				+ item.getReturnDate() +" " + lendMailInfo
 				+ "\n\n Have a nice day!\n" + item.getOwner().getFirstName()
 				+ item.getOwner().getLastName();
 		sendMail(ownerMail, subject, body);
 		
 		if(lendMail!=null){
 			body = "Hello!\nYou have borrow item: " + item.getName()
-					+ "from the " + item.getOwner().getFirstName()
+					+ " from the " + item.getOwner().getFirstName()
 					+ item.getOwner().getLastName() + " on the "
 					+ item.getLendDate() + "\n Return date is set to : "
 					+ item.getReturnDate() 

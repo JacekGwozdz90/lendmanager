@@ -1,6 +1,7 @@
 package lendmanager.config;
 
 import lendmanager.Application;
+import lendmanager.notifications.EmailScheduler;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -24,5 +25,8 @@ class ApplicationConfig {
 		propertyPlaceholderConfigurer.setLocation(new ClassPathResource("/persistence.properties"));
 		return propertyPlaceholderConfigurer;
 	}
-	
+    @Bean
+    public EmailScheduler task() {
+        return new EmailScheduler();
+    }
 }

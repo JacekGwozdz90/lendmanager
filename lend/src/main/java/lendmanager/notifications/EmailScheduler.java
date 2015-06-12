@@ -2,6 +2,10 @@ package lendmanager.notifications;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import lendmanager.account.AccountRepository;
@@ -20,13 +24,17 @@ public class EmailScheduler {
 	@Autowired
 	private AccountRepository accountRepository;
 	
-	@Scheduled(fixedRate = 86400000)
+	@Scheduled(fixedRate = 8640000)
 	public void scheduleMails(){
+		System.out.println("Scheduling mails!");
 		for(Item item :itemRepository.findAll()){
-			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-			Date date = new Date();
-			if(DateUtils.createToday().equals(item.getRemindDate())){
-				new EmailSendTask(accountRepository,item);
+			LocalDate today = LocalDate.now();
+			Date remindDay = item.getRemindDate();
+			Instant instant = Instant.ofEpochMilli(remindDay.getTime());
+			LocalDate res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+			if(today.equals(res)){
+				System.out.println("GOGO!" + item);
+				new EmailSendTask(accountRepository,item).run();;
 			}
 		}
 	}
