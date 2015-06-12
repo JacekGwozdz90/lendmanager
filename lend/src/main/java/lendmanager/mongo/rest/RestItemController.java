@@ -57,7 +57,7 @@ public class RestItemController {
 	 * @return list of found items owned by
 	 */
 	@RequestMapping(value = "/query/ownedBy/{ownerId}", method = RequestMethod.GET, produces = "application/json")
-	public List<Item> getAllItemsOwnedBy(@PathVariable("ownerId") Integer ownerId,
+	public List<Item> getAllItemsOwnedBy(@PathVariable("ownerId") String ownerId,
 			@RequestParam(required = false) boolean useFacebook) {
 		if (useFacebook) {
 			return itemRepository.findByOwnerFacebookId(ownerId);
