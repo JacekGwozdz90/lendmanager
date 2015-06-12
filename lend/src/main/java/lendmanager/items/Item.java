@@ -5,6 +5,7 @@ import java.util.Date;
 import lendmanager.person.Person;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Item {
 
@@ -12,9 +13,11 @@ public class Item {
     private String id;
     private String name;
     
+    @DBRef
     private Person owner;
-    
+    @DBRef
     private Person person;
+    
     private Date lendDate;
     private Date returnDate;
     private Date remindDate;
